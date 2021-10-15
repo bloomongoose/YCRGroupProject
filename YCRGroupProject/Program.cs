@@ -5,12 +5,19 @@ namespace YCRGroupProject
     class Program
     {
         static void Main(string[] args)
-        {
-            //GROUP PROJECT BABY LET'S GOOOOOOOOO
+        { while (true)
 
-            //testers
-            Product newProduct = new Product();
-            newProduct.ProductList();
+            {
+                //GROUP PROJECT BABY LET'S GOOOOOOOOO
+
+                //testers
+                Product newProduct = new Product();
+                newProduct.ProductList();
+                Product.SelectorMethod();
+                
         }
+        }
+
+        
     }
 }

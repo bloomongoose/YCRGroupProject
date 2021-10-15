@@ -26,9 +26,9 @@ namespace YCRGroupProject
                 new Product ("Suspenders", "Clothing", "Unleash your inner Terry Crews", 8.99),
                 new Product ("Speakers", "Electronics", "For surround sound", 24.99)
             };
-            foreach (Product p in InventoryProducts)
+            for(int i = 0; i < InventoryProducts.Count; i++)
             {
-                Console.WriteLine(p.ToString());
+                Console.WriteLine($"{i + 1}. {InventoryProducts[i].ToString()}");
             }
 
         }
@@ -44,12 +44,14 @@ namespace YCRGroupProject
 
         }
         //properties
+
         public string Name;
         public string Category;
         public string Description;
         public double Price;
 
         //constructors
+
         public Product()
         {
             Name = "";
@@ -65,6 +67,43 @@ namespace YCRGroupProject
             Price = price;
         }
 
+        //methods
+        public static string NameSelector()
+        {
+            string result = "";
+
+
+            return result;
+
+
+        }
+        public static void SelectorMethod()
+        {
+            bool isNum = true;
+            Console.WriteLine("Please enter a product number");
+            string choice = Console.ReadLine();
+            isNum = int.TryParse(choice, out int result);
+
+            if (isNum == false)
+            {
+
+            }
+
+            else if (result > 0 && result < 14)
+            {
+
+
+
+
+            }
+
+            else
+            {
+
+                Console.WriteLine("We do not have that product");
+            }
+
+        }
 
     }
 }
