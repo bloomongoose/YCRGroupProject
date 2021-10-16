@@ -39,63 +39,74 @@ namespace YCRGroupProject
         //methods
         public void NameSelector(string choice)
         {
-
             foreach (Product p in InventoryProducts)
             {
                 if (choice == p.Name)
                 {
                     Cart.Add(p);
                     double amount = GetAmount(p.Name);
-                  //  p.Add(amount);
-                    Console.WriteLine($"You bought a {p.Name} for {p.Price}!");
+
+                 double itemTotal = amount * p.Price;
+                    Console.WriteLine($"You bought {amount} {p.Name} for {p.Price}, for a total of {itemTotal}!");
                     break;
                 }
-
             }
 
-            bool addProduct = Validator.Validator.GetContinue("Would you like to purchase another product? y/n");
+            Console.WriteLine($"1. See menu");
+            Console.WriteLine($"2. Complete Purchase");
+            //bool addProduct = Validator.Validator.GetContinue("Would you like to purchase another product? y/n");
 
-            if (addProduct == true)
-            {
-                bool seeMenu = Validator.Validator.GetContinue("Would you like to see the menu? y/n");
-                if (seeMenu == true)
-                {
-                    ProductList();
-                }
-            }
+            //if (addProduct == true)
+            //{
+            //    bool seeMenu = Validator.Validator.GetContinue("Would you like to see the menu? y/n");
+            //    if (seeMenu == true)
+            //    {
+            //        ProductList();
+            //    }
+            //    else if (seeMenu == false)
+            //    {
+            //        SelectorMethod();
+            //    }
+            //}
         }
-
         public void NumberSelector(int result)
         {
-
             for (int i = 0; i < InventoryProducts.Count; i++)
             {
                 if (result == i + 1)
                 {
-
-                    Console.WriteLine($"How many {InventoryProducts[i].Name} would you like to buy?");
                     double amount = GetAmount(InventoryProducts[i].Name);
-
-                    Console.WriteLine($"You bought {amount} {InventoryProducts[i].Name} for {InventoryProducts[i].Price} each!");
+                    double itemTotal = amount * InventoryProducts[i].Price;
+                    Console.WriteLine($"You bought {amount} {InventoryProducts[i].Name} for {InventoryProducts[i].Price} each! For a total of {itemTotal}");
                     break;
                 }
             }
-
-            bool addProduct = Validator.Validator.GetContinue("Would you like to purchase another product? y/n");
-
-            if (addProduct == true)
+            Console.WriteLine($"Select 1 to see the menu, or 2 to complete your purchase.");
+            double choice = Validator.Validator.GetNumber();
+            if(choice == 1)
             {
-                bool seeMenu = Validator.Validator.GetContinue("Would you like to see the menu? y/n");
-                if (seeMenu == true)
-                {
-                    ProductList();
-                }
+                ProductList();
             }
+            else if(choice == 2)
+            {
+                //method for completing purchase
+                Console.WriteLine("THANKS!!!");
+            }
+
+            //bool addProduct = Validator.Validator.GetContinue("Would you like to purchase another product? y/n");
+            //if (addProduct == true)
+            //{
+            //    bool seeMenu = Validator.Validator.GetContinue("Would you like to see the menu or complete your purchase?");
+            //    if (seeMenu == true)
+            //    {
+            //        ProductList();
+            //    }
+            //}
         }
         public void SelectorMethod()
         {
             bool isNum = true;
-            Console.WriteLine("Please enter a product number");
+            Console.WriteLine("Please enter a product number or product name.");
             string choice = Console.ReadLine();
 
             isNum = int.TryParse(choice, out int result);
@@ -109,14 +120,23 @@ namespace YCRGroupProject
             {
                 NumberSelector(result);
             }
+            else if (result == 15)
+            {
+                ProductList();
+            }
+            else if(result == 16)
+            {
+                //add checkout method (items, subtotal,sales tax, total) 
+                //then into payment method
+                //then into receipt
+              
+            }
 
             else
             {
-
                 Console.WriteLine("We do not have that product");
             }
         }
-
         static int GetAmount(string name)
         {
             int result = 0;
