@@ -6,25 +6,26 @@ namespace YCRGroupProject
     class Program
     {
         static void Main(string[] args)
-        //{ while (true)
+        {
+            //while (true)
 
-            {
-                //GROUP PROJECT BABY LET'S GOOOOOOOOO
+            //{
+            //GROUP PROJECT BABY LET'S GOOOOOOOOO
 
-                //testers
+            //testers
 
-                
-                InventoryList store = new InventoryList();
+
+            InventoryList store = new InventoryList();
                 
                 store.ProductList();
 
                 List<InventoryList> cart = new List<InventoryList>();
                 store.SelectorMethod();
-                
-                
-        //}
+
+
+            //}
         }
 
-        
-    }
+
+        }
 }
