@@ -26,6 +26,7 @@ namespace YCRGroupProject
 
         //Cart for customer
         List<Product> Cart = new List<Product>();
+        List<double> Quantity = new List<double>();
 
         public void ProductList()
         {
@@ -44,16 +45,26 @@ namespace YCRGroupProject
                 if (choice == p.Name)
                 {
                     Cart.Add(p);
+                    
                     double amount = GetAmount(p.Name);
 
-                 double itemTotal = amount * p.Price;
-                    Console.WriteLine($"You bought {amount} {p.Name} for {p.Price}, for a total of {itemTotal}!");
+                    double itemTotal = amount * p.Price;
+                    Console.WriteLine($"You bought {amount} {p.Name} for ${p.Price}, for a total of ${Math.Round(itemTotal)}!");
                     break;
                 }
             }
-
-            Console.WriteLine($"1. See menu");
-            Console.WriteLine($"2. Complete Purchase");
+            Console.WriteLine($"Select 1 to see the menu, or 2 to complete your purchase.");
+            double choice2 = Validator.Validator.GetNumber();
+            if (choice2 == 1)
+            {
+                ProductList();
+            }
+            else if (choice2 == 2)
+            {
+                cartTotal();
+                //method for completing purchase
+                Console.WriteLine("THANKS!!!");
+            }
             //bool addProduct = Validator.Validator.GetContinue("Would you like to purchase another product? y/n");
 
             //if (addProduct == true)
@@ -75,20 +86,24 @@ namespace YCRGroupProject
             {
                 if (result == i + 1)
                 {
+                    Cart.Add(InventoryProducts[i]);
                     double amount = GetAmount(InventoryProducts[i].Name);
+                    
                     double itemTotal = amount * InventoryProducts[i].Price;
-                    Console.WriteLine($"You bought {amount} {InventoryProducts[i].Name} for {InventoryProducts[i].Price} each! For a total of {itemTotal}");
+                    Console.WriteLine($"You bought {amount} {InventoryProducts[i].Name} for ${InventoryProducts[i].Price} each! For a total of ${Math.Round(itemTotal)}");
                     break;
                 }
             }
             Console.WriteLine($"Select 1 to see the menu, or 2 to complete your purchase.");
             double choice = Validator.Validator.GetNumber();
-            if(choice == 1)
+
+            if (choice == 1)
             {
                 ProductList();
             }
-            else if(choice == 2)
+            else if (choice == 2)
             {
+                cartTotal();
                 //method for completing purchase
                 Console.WriteLine("THANKS!!!");
             }
@@ -124,12 +139,12 @@ namespace YCRGroupProject
             {
                 ProductList();
             }
-            else if(result == 16)
+            else if (result == 16)
             {
                 //add checkout method (items, subtotal,sales tax, total) 
                 //then into payment method
                 //then into receipt
-              
+
             }
 
             else
@@ -137,13 +152,14 @@ namespace YCRGroupProject
                 Console.WriteLine("We do not have that product");
             }
         }
-        static int GetAmount(string name)
+        public double GetAmount(string name)
         {
-            int result = 0;
+            double result = 0;
             while (true)
             {
                 Console.WriteLine("How many would you like to buy?");
-                result = int.Parse(Console.ReadLine());
+                result = double.Parse(Console.ReadLine());
+                Quantity.Add(result);
                 //0 or lower
                 if (result <= 0)
                 {
@@ -157,5 +173,38 @@ namespace YCRGroupProject
             }
             return result;
         }
+        public void cartTotal()
+        {
+            double subTotal = 0;
+            double salesTax = 0.06;
+            for (int i = 0; i < Cart.Count; i++)
+            {
+                subTotal = Quantity[i] * Cart[i].Price;
+
+            }
+            double grandTotal = (subTotal * salesTax) + subTotal;
+
+            Console.WriteLine($"Subtotal: ${Math.Round(subTotal, 2)} | Sales Tax: {salesTax}% | Grand total: ${Math.Round(grandTotal, 2)}");
+        }
+
+        public void getContinue()
+        {
+            while (true)
+            {
+                double choice = Validator.Validator.GetNumber();
+                if (choice == 1)
+                {
+                    ProductList();
+                    SelectorMethod();
+                }
+                else if (choice == 2)
+                {
+                    //method for completing purchase
+                    cartTotal();
+                    Console.WriteLine("THANKS!!!");
+                }
+            }
+        }
+
     }
 }
