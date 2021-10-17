@@ -42,19 +42,22 @@ namespace YCRGroupProject
         }
 
 
-        
+
         public Product NameSelector(string choice)
         {
             Product Purchased = new Product();
+            //while (true)
+            //{
             foreach (Product p in InventoryProducts)
             {
                 if (choice == p.Name)
                 {
-
                     Purchased = p;
-
+                    break;
                 }
+
             }
+            //}
 
             return Purchased;
         }
@@ -90,7 +93,7 @@ namespace YCRGroupProject
                     break;
 
                 }
-               
+
             }
             return Purchased;
 
@@ -102,25 +105,36 @@ namespace YCRGroupProject
         {
             Product Purchased = new Product();
             bool isNum = true;
-            Console.WriteLine("Please enter a product number or product name.");
-            string choice = Console.ReadLine();
-
-            isNum = int.TryParse(choice, out int result);
-
-            if (isNum == false)
+            while (true)
             {
+                Console.WriteLine("Please enter a product number or product name.");
+                string choice = Console.ReadLine();
 
-                Purchased = NameSelector(choice);
-            }
+                isNum = int.TryParse(choice, out int result);
 
-            else if (result > 0 && result < 14)
-            {
-                Purchased = numSelector(result);
-            }
-           
-            else
-            {
-                Console.WriteLine("We do not have that product");
+                if (isNum == false)
+                {
+                    Purchased = NameSelector(choice);
+                    if (Purchased.Name == "")
+                    {
+                        Console.WriteLine("That was not a valid input.");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else if (result > 0 && result < 14)
+                {
+                    Purchased = numSelector(result);
+                    break;
+                }
+
+                else
+                {
+                    Console.WriteLine("We do not have that product");
+
+                }
             }
 
             return Purchased;
@@ -135,7 +149,7 @@ namespace YCRGroupProject
             while (true)
             {
                 Console.WriteLine("How many would you like to buy?");
-                result = double.Parse(Console.ReadLine());
+                result = Validator.Validator.GetNumber();
 
                 //0 or lower
                 if (result <= 0)
@@ -205,7 +219,7 @@ namespace YCRGroupProject
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                }              
+                }
             }
             return iAmLosingMyGodDamnMind;
 
@@ -224,24 +238,24 @@ namespace YCRGroupProject
                 {
                     //go to cash method
 
-                    
+
                     break;
                 }
                 else if (payment == "credit")
                 {
                     //go to credit method
-                    
+
                     break;
                 }
                 else if (payment == "check")
                 {
                     //go to check method               
-                    
+
                     break;
                 }
                 else
                 {
-                    return "That's not an acceptable form of payment. Try again.";
+                    Console.WriteLine("That's not an acceptable form of payment. Try again.");
                 }
             }
             return payment;
@@ -250,11 +264,11 @@ namespace YCRGroupProject
 
         public double payByCash(double total)
         {
-            
+
             double change = 0;
             //tesTotal is a placeholder. Enter user's actual total here
             Console.WriteLine("How much cash would you like to pay with?");
-            double cash = double.Parse(Console.ReadLine());
+            double cash = Validator.Validator.GetNumber();
             change = cash - total;
             //Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
             return change;
@@ -262,34 +276,44 @@ namespace YCRGroupProject
 
         public void payByCredit()
         {
+            double cvv = 0;
             Console.WriteLine("Enter your 16 digit credit card number.");
-            double ccn = double.Parse(Console.ReadLine());
+            double ccn = Validator.Validator.GetNumberRange(1000000000000000, 9999999999999999);
             Console.WriteLine("Enter your expiration date in MMYYYY format.");
-            int exp = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter your 3 digit CVV number (located on the back of your card).");
-            int cvv = int.Parse(Console.ReadLine());
-            string cardInfo = $"CC#: {ccn} | Exp Date: {exp} | CVV: {cvv} ";
-            Console.WriteLine(cardInfo);
+            double exp = Validator.Validator.GetNumberRange(100000, 999999);
+            while (true)
+            {
+                Console.WriteLine("Enter your 3 digit CVV number (located on the back of your card).");
+                cvv = Validator.Validator.GetNumberRange(001, 999);
+                if (cvv.ToString().Length != 3)
+                {
+                    Console.WriteLine("That was not a valid input. Try again.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Console.WriteLine( $"CC#: {ccn} | Exp Date: {exp} | CVV: {cvv} ");
         }
         public void paybyCheck()
         {
             Console.WriteLine("Enter your check number.");
-            double check = double.Parse(Console.ReadLine());
+            double check = Validator.Validator.GetNumber();
 
             Console.WriteLine($"Your check number is {check}.");
         }
 
         public void DisplayReceipt(List<Product> recieptCart, List<double> quant)
         {
-            Console.WriteLine("This is your receipt");
+            Console.WriteLine("Thank you for shopping with us! See you soon!");
             Console.WriteLine();
-            Console.WriteLine(string.Format($"{"Quantity",-25}{"Item",-25}{"Price",-25}"));
+            Console.WriteLine(string.Format($"{"Quantity",-15}{"Item",-15}{"Price",-15}"));
             Console.WriteLine();
             for (int i = 0; i < recieptCart.Count; i++)
             {
-                Console.WriteLine(string.Format($"{quant[i], -25}{recieptCart[i].Name,-25}${recieptCart[i].Price.ToString("0.00"),-25}"));
+                Console.WriteLine(string.Format($"{quant[i],-15}{recieptCart[i].Name,-15}${recieptCart[i].Price.ToString("0.00"),-15}"));
             }
- 
         }
     }
 }

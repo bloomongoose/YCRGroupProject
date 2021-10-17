@@ -18,9 +18,57 @@ namespace Validator
                     result = double.Parse(Console.ReadLine());
                     break;
                 }
-                catch(FormatException e)
+                catch(Exception e)
                 {
-                    Console.WriteLine("That was not a number. Try again.");
+                    Console.WriteLine("That was not a valid input. Please enter a number.");
+                }
+            }
+
+            return result;
+        }
+        public static double GetNumber(string input)
+        {
+            double result = 0;
+
+            while (true)
+            {
+                try
+                {
+                    result = double.Parse(Console.ReadLine());
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("That was not a valid input. Please enter a number.");
+                }
+            }
+
+            return result;
+        }
+
+        public static double GetNumberRange(double min, double max)
+        {
+           // double min = 1000000000000000;
+          // double max = 9999999999999999;
+            double result = 0;
+
+            while (true)
+            {
+                try
+                {
+                    result = double.Parse(Console.ReadLine());
+                    if(result < min || result > max)
+                    {
+                        Console.WriteLine("That was not a valid number. Please try again.");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("That was not a valid input. Please enter a number.");
                 }
             }
 
