@@ -9,7 +9,7 @@ namespace YCRGroupProject
         {
             while (true)
             {
-                Console.WriteLine("\t\t\t\tWelcome to the corner bodega!\n");
+                Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
                 //GROUP PROJECT BABY LET'S GOOOOOOOOO
                 InventoryList store = new InventoryList();
                 //testers
@@ -20,7 +20,6 @@ namespace YCRGroupProject
                 Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
                 while (true)
                 {
-
                     Product purchased = store.SelectorMethod();
                     double itemQuantity = store.GetAmount(purchased);
                     quantity.Add(itemQuantity);
@@ -28,10 +27,7 @@ namespace YCRGroupProject
                     if (!store.getContinue())
                     {
                         break;
-
                     }
-
-
                 }
 
                 double total = store.cartTotal(cart);
@@ -42,16 +38,13 @@ namespace YCRGroupProject
 
                     change = store.payByCash(total);
                 }
-
                 else if (paymentType == "credit")
                 {
-
-                    store.payByCredit();
+                     store.payByCredit();
                 }
                 else if (paymentType == "check")
                 {
                     store.paybyCheck();
-
                 }
                 store.DisplayReceipt(cart, quantity);
                 Console.WriteLine("\n");
@@ -60,12 +53,10 @@ namespace YCRGroupProject
                 {
                     Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
                 }
+                
                 Console.WriteLine("--------------------------------------------------\n\n");
             }
-
         }
-
     }
-
 }
 
