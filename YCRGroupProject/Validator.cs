@@ -27,7 +27,7 @@ namespace Validator
             return result;
         }
 
-        public static double GetNumber(double min, double max)
+        public static double KeepGoing()
         {
             double result = 0;
 
@@ -35,19 +35,19 @@ namespace Validator
             {
                 try
                 {
-                    Console.WriteLine($"Enter a number between {min} and {max}.");
+                    Console.WriteLine("Enter 1 to see the menu. Enter two to checkout.");
                     result = double.Parse(Console.ReadLine());
-                    if (result > max)
+                    if (result == 1 )
                     {
-                        throw new Exception ("That number's too large.");
+                        
                     }
-                    else if(result < min)
+                    else if(result == 2)
                     {
-                        throw new Exception("That number's too smol.");
+                        break;
                     }
                     else
                     {
-                        break;
+                        Console.WriteLine("That was not a valid number. ");
                     }
                     
                 }

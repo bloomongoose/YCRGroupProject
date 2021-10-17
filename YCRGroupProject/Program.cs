@@ -7,25 +7,61 @@ namespace YCRGroupProject
     {
         static void Main(string[] args)
         {
-            //while (true)
-
-            //{
+            
             //GROUP PROJECT BABY LET'S GOOOOOOOOO
-
-            //testers
-
-
             InventoryList store = new InventoryList();
+            //testers
+            List<Product> cart = new List<Product>();
+
+
+
+
+            store.ProductList();
+
+            while (true)
+                {
                 
-                store.ProductList();
+                Product purchased = store.SelectorMethod();              
+                cart.Add(purchased);
+               if (!store.getContinue())
+                {
+                    break;
 
-                List<InventoryList> cart = new List<InventoryList>();
-                store.SelectorMethod();
+                }
+                
+
+                }
+
+            double total = store.cartTotal(cart);
+            string paymentType = store.askPayment();
+            if(paymentType == "cash")
+            {
+
+                store.payByCash(total);
+
+            }
+
+            else if(paymentType == "credit")
+            {
+
+                store.payByCredit();
+            }
+            else if(paymentType == "check")
+            {
+                store.paybyCheck();
+
+            }
+            
+            
 
 
-            //}
+
         }
 
+            
+           
+        }
+      
 
         }
-}
+
