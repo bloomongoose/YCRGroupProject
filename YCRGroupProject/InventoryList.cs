@@ -28,6 +28,10 @@ namespace YCRGroupProject
         List<Product> Cart = new List<Product>();
         List<double> Quantity = new List<double>();
 
+
+
+
+        //methods
         public void ProductList()
         {
             for (int i = 0; i < InventoryProducts.Count; i++)
@@ -37,89 +41,66 @@ namespace YCRGroupProject
 
         }
 
-        //methods
-        public void NameSelector(string choice)
+
+        
+        public Product NameSelector(string choice)
         {
+            Product Purchased = new Product();
             foreach (Product p in InventoryProducts)
             {
                 if (choice == p.Name)
                 {
-                    Cart.Add(p);
-                    
-                    double amount = GetAmount(p.Name);
 
-                    double itemTotal = amount * p.Price;
-                    Console.WriteLine($"You bought {amount} {p.Name} for ${p.Price}, for a total of ${Math.Round(itemTotal)}!");
-                    break;
+                    Purchased = p;
+
                 }
             }
+
+            return Purchased;
+        }
+
+
+
+        public void seeMenu()
+        {
             Console.WriteLine($"Select 1 to see the menu, or 2 to complete your purchase.");
             double choice2 = Validator.Validator.GetNumber();
             if (choice2 == 1)
             {
                 ProductList();
+                SelectorMethod();
             }
             else if (choice2 == 2)
             {
-                cartTotal();
-                //method for completing purchase
+
                 Console.WriteLine("THANKS!!!");
             }
-            //bool addProduct = Validator.Validator.GetContinue("Would you like to purchase another product? y/n");
 
-            //if (addProduct == true)
-            //{
-            //    bool seeMenu = Validator.Validator.GetContinue("Would you like to see the menu? y/n");
-            //    if (seeMenu == true)
-            //    {
-            //        ProductList();
-            //    }
-            //    else if (seeMenu == false)
-            //    {
-            //        SelectorMethod();
-            //    }
-            //}
         }
-        public void NumberSelector(int result)
+
+
+        public Product numSelector(int result)
         {
+            Product Purchased = new Product();
             for (int i = 0; i < InventoryProducts.Count; i++)
             {
                 if (result == i + 1)
                 {
-                    Cart.Add(InventoryProducts[i]);
-                    double amount = GetAmount(InventoryProducts[i].Name);
-                    
-                    double itemTotal = amount * InventoryProducts[i].Price;
-                    Console.WriteLine($"You bought {amount} {InventoryProducts[i].Name} for ${InventoryProducts[i].Price} each! For a total of ${Math.Round(itemTotal)}");
+                    Purchased = InventoryProducts[i];
                     break;
+
                 }
+               
             }
-            Console.WriteLine($"Select 1 to see the menu, or 2 to complete your purchase.");
-            double choice = Validator.Validator.GetNumber();
+            return Purchased;
 
-            if (choice == 1)
-            {
-                ProductList();
-            }
-            else if (choice == 2)
-            {
-                cartTotal();
-                //method for completing purchase
-                Console.WriteLine("THANKS!!!");
-            }
-
-            //bool addProduct = Validator.Validator.GetContinue("Would you like to purchase another product? y/n");
-            //if (addProduct == true)
-            //{
-            //    bool seeMenu = Validator.Validator.GetContinue("Would you like to see the menu or complete your purchase?");
-            //    if (seeMenu == true)
-            //    {
-            //        ProductList();
-            //    }
-            //}
         }
-        public void SelectorMethod()
+
+
+
+        public Product SelectorMethod()
         {
+            Product Purchased = new Product();
             bool isNum = true;
             Console.WriteLine("Please enter a product number or product name.");
             string choice = Console.ReadLine();
@@ -128,38 +109,38 @@ namespace YCRGroupProject
 
             if (isNum == false)
             {
-                NameSelector(choice);
+
+                Purchased = NameSelector(choice);
+                GetAmount(Purchased);
+
             }
 
             else if (result > 0 && result < 14)
             {
-                NumberSelector(result);
-            }
-            else if (result == 15)
-            {
-                ProductList();
-            }
-            else if (result == 16)
-            {
-                //add checkout method (items, subtotal,sales tax, total) 
-                //then into payment method
-                //then into receipt
+                Purchased = numSelector(result);
+                GetAmount(Purchased);
 
             }
-
+           
             else
             {
                 Console.WriteLine("We do not have that product");
             }
+
+            return Purchased;
         }
-        public double GetAmount(string name)
+
+
+
+        public double GetAmount(Product t)
         {
             double result = 0;
+
             while (true)
             {
                 Console.WriteLine("How many would you like to buy?");
                 result = double.Parse(Console.ReadLine());
-                Quantity.Add(result);
+
                 //0 or lower
                 if (result <= 0)
                 {
@@ -168,43 +149,146 @@ namespace YCRGroupProject
                 //1 or higher
                 else
                 {
+                    Quantity.Add(result);
+                    Console.WriteLine($"You bought{result} {t.Name} at {t.Price}");
                     break;
                 }
+
             }
             return result;
+
         }
-        public void cartTotal()
+
+
+        public double cartTotal(List<Product> RadeenIsTheMan)
         {
             double subTotal = 0;
             double salesTax = 0.06;
-            for (int i = 0; i < Cart.Count; i++)
+            for (int i = 0; i < Quantity.Count; i++)
             {
-                subTotal = Quantity[i] * Cart[i].Price;
+                subTotal += RadeenIsTheMan[i].Price * Quantity[i];
 
             }
             double grandTotal = (subTotal * salesTax) + subTotal;
 
             Console.WriteLine($"Subtotal: ${Math.Round(subTotal, 2)} | Sales Tax: {salesTax}% | Grand total: ${Math.Round(grandTotal, 2)}");
+            return grandTotal;
         }
 
-        public void getContinue()
+
+
+        public bool getContinue()
         {
+            bool iAmLosingMyGodDamnMind = true;
+            double result = 0;
+
             while (true)
             {
-                double choice = Validator.Validator.GetNumber();
-                if (choice == 1)
+                try
                 {
-                    ProductList();
-                    SelectorMethod();
+                    Console.WriteLine("Enter 1 to see the menu. Enter two to checkout.");
+                    result = double.Parse(Console.ReadLine());
+                    if (result == 1)
+                    {
+                        ProductList();
+                        break;
+                    }
+                    else if (result == 2)
+                    {
+                        iAmLosingMyGodDamnMind = false;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("That was not a valid number. ");
+                    }
+
                 }
-                else if (choice == 2)
+                catch (FormatException e)
                 {
-                    //method for completing purchase
-                    cartTotal();
-                    Console.WriteLine("THANKS!!!");
+                    Console.WriteLine("That wasn't a number. Try again");
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }              
             }
+            return iAmLosingMyGodDamnMind;
+
         }
 
+
+
+        public string askPayment()
+        {
+            string payment = "";
+            while (true)
+            {
+                Console.WriteLine("How would you like to pay? Cash / Credit / Check");
+                payment = Console.ReadLine().ToLower().Trim();
+                if (payment == "cash")
+                {
+                    //go to cash method
+
+                    
+                    break;
+                }
+                else if (payment == "credit")
+                {
+                    //go to credit method
+                    
+                    break;
+                }
+                else if (payment == "check")
+                {
+                    //go to check method               
+                    
+                    break;
+                }
+                else
+                {
+                    return "That's not an acceptable form of payment. Try again.";
+                }
+            }
+            return payment;
+        }
+
+
+        public void payByCash(double total)
+        {
+            
+            double change = 0;
+            //tesTotal is a placeholder. Enter user's actual total here
+            Console.WriteLine("How much cash would you like to pay with?");
+            double cash = double.Parse(Console.ReadLine());
+            change = cash - total;
+            Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
+        }
+
+
+        public void payByCredit()
+        {
+            Console.WriteLine("Enter your 16 digit credit card number.");
+            double ccn = double.Parse(Console.ReadLine());
+            Console.WriteLine("Enter your expiration date in MMYYYY format.");
+            int exp = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter your 3 digit CVV number (located on the back of your card).");
+            int cvv = int.Parse(Console.ReadLine());
+            string cardInfo = $"CC#: {ccn} | Exp Date: {exp} | CVV: {cvv} ";
+            Console.WriteLine(cardInfo);
+        }
+        public void paybyCheck()
+        {
+            Console.WriteLine("Enter your check number.");
+            double check = double.Parse(Console.ReadLine());
+
+            Console.WriteLine($"Your check number is {check}.");
+        }
     }
+
+
+
 }
+
+
+
