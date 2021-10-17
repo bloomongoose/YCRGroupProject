@@ -111,15 +111,11 @@ namespace YCRGroupProject
             {
 
                 Purchased = NameSelector(choice);
-                GetAmount(Purchased);
-
             }
 
             else if (result > 0 && result < 14)
             {
                 Purchased = numSelector(result);
-                GetAmount(Purchased);
-
             }
            
             else
@@ -150,13 +146,11 @@ namespace YCRGroupProject
                 else
                 {
                     Quantity.Add(result);
-                    Console.WriteLine($"You bought{result} {t.Name} at {t.Price}");
+                    Console.WriteLine($"You bought {result} {t.Name}(s) at ${t.Price}");
                     break;
                 }
-
             }
             return result;
-
         }
 
 
@@ -186,7 +180,7 @@ namespace YCRGroupProject
             {
                 try
                 {
-                    Console.WriteLine("Enter 1 to see the menu. Enter two to checkout.");
+                    Console.WriteLine("Enter 1 to see the menu. Enter 2 to checkout.");
                     result = double.Parse(Console.ReadLine());
                     if (result == 1)
                     {
@@ -254,7 +248,7 @@ namespace YCRGroupProject
         }
 
 
-        public void payByCash(double total)
+        public double payByCash(double total)
         {
             
             double change = 0;
@@ -262,9 +256,9 @@ namespace YCRGroupProject
             Console.WriteLine("How much cash would you like to pay with?");
             double cash = double.Parse(Console.ReadLine());
             change = cash - total;
-            Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
+            //Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
+            return change;
         }
-
 
         public void payByCredit()
         {
@@ -284,10 +278,20 @@ namespace YCRGroupProject
 
             Console.WriteLine($"Your check number is {check}.");
         }
+
+        public void DisplayReceipt(List<Product> recieptCart, List<double> quant)
+        {
+            Console.WriteLine("This is your receipt");
+            Console.WriteLine();
+            Console.WriteLine(string.Format($"{"Quantity",-25}{"Item",-25}{"Price",-25}"));
+            Console.WriteLine();
+            for (int i = 0; i < recieptCart.Count; i++)
+            {
+                Console.WriteLine(string.Format($"{quant[i], -25}{recieptCart[i].Name,-25}${recieptCart[i].Price.ToString("0.00"),-25}"));
+            }
+ 
+        }
     }
-
-
-
 }
 
 
