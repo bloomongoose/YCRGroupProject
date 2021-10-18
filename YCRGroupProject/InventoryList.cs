@@ -79,14 +79,12 @@ namespace YCRGroupProject
         //methods
         public void ProductList()
         {
-
             Console.ForegroundColor = ConsoleColor.Cyan;
             for (int i = 0; i < StoreList.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {StoreList[i].ToString()}");
             }
             Console.ForegroundColor = ConsoleColor.White;
-
         }
 
         public Product NameSelector(string choice)
@@ -309,7 +307,6 @@ namespace YCRGroupProject
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
-            //Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
             return change;
         }
 
@@ -320,6 +317,7 @@ namespace YCRGroupProject
             string exp = "";
             while (true)
             {
+                //Only takes actual credit card numbers, cannot be fabricated.
                 Console.WriteLine("Enter your 16 digit credit card number.");
                 ccn = Console.ReadLine();
                 if (Regex.IsMatch(ccn, @"(^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\d{3})\d{11}$)

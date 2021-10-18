@@ -8,11 +8,8 @@ namespace YCRGroupProject
     {
         static void Main(string[] args)
         {
-            InventoryList store = new InventoryList();
-            store.FileCheck();
-          
-            
-           
+
+
 
             bool runProgram = true;
             while (runProgram)
