@@ -154,11 +154,13 @@ namespace Validator
                 if(choice == "y")
                 {
                     result = true;
+                    Console.Clear();
                     break;
                 }
                 else if (choice == "n")
                 {
                     result = false;
+                    Console.Clear();
                     break;
                 }
                 else
