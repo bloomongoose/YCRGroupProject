@@ -8,7 +8,7 @@ namespace YCRGroupProject
     {
         static void Main(string[] args)
         {
-
+            InventoryList store = new InventoryList();
 
 
             bool runProgram = true;
