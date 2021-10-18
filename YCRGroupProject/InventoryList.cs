@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -26,6 +27,54 @@ namespace YCRGroupProject
             };
         //Cart for customer
         List<double> Quantity = new List<double>();
+
+
+        //creating new method run at beginning of code
+        public void FileCheck()
+        {
+            string filepath = @"..\..\..\YCR_Group_Project";
+            if (File.Exists(filepath) == false)
+            {
+                Console.WriteLine("File not found, recreating now.");
+                StreamWriter sw = new StreamWriter(filepath);
+                foreach(Product pro in StoreList)
+                {
+                    sw.WriteLine($"{pro.Name},{pro.Category},{pro.Description},{ pro.Price}");
+
+                }
+                sw.Close();
+
+            }
+            else
+            {
+                StreamReader sr = new StreamReader(filepath);
+                string output = sr.ReadToEnd();
+                string[] lines = output.Split('\n');
+                List<Product> textDocList = new List<Product>();
+                foreach(string line in lines)
+                 {  if(line.Length < 1 )
+                    {
+                        break;
+                    }
+                    string[] productProps = line.Split(",");
+                    Product p = new Product(productProps[0], productProps[1], productProps[2], double.Parse(productProps[3]));
+                    textDocList.Add(p);
+                    
+                                   
+                }
+                sr.Close();
+                StoreList = textDocList;
+            }
+
+            
+
+        }
+
+
+
+
+
+
 
         //methods
         public void ProductList()
