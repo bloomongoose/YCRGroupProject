@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 
 namespace YCRGroupProject
 {
@@ -8,13 +8,19 @@ namespace YCRGroupProject
     {
         static void Main(string[] args)
         {
+            InventoryList store = new InventoryList();
+            store.FileCheck();
+          
+            
+           
+
             bool runProgram = true;
             while (runProgram)
             {
 
                 Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
                 
-                InventoryList store = new InventoryList();
+                
                 
                 List<Product> cart = new List<Product>();
                 List<double> quantity = new List<double>();
