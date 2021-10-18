@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace YCRGroupProject
 {
     class Program
     {
         static void Main(string[] args)
         {
-            while (true)
+            bool runProgram = true;
+            while (runProgram)
             {
+
                 Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
                 
                 InventoryList store = new InventoryList();
@@ -39,7 +42,7 @@ namespace YCRGroupProject
                 }
                 else if (paymentType == "credit")
                 {
-                     store.payByCredit();
+                    store.payByCredit();
                 }
                 else if (paymentType == "check")
                 {
@@ -52,8 +55,19 @@ namespace YCRGroupProject
                 {
                     Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
                 }
-                Console.WriteLine("------------------------------------------------------------------------------------------\n\n");
+
+                Console.WriteLine("--------------------------------------------------\n\n");
+
+                runProgram = Validator.Validator.GetContinue("Would you like to continue shopping? y/n");
+
+
             }
+
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Font font = new Font("Times New Roman", 12.0f);
+
         }
     }
 }
