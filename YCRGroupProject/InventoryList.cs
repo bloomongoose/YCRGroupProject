@@ -11,7 +11,7 @@ namespace YCRGroupProject
         //Store Inventory -- rename store items
         List<Product> StoreList = new List<Product>
             {
-                new Product("Turtleneck", "Clothing", "It's time to start caring about your neck", 18.99),
+                new Product("Turtleneck", "Clothing", "It's Time To Start Caring About Your Neck", 18.99),
                 new Product("Pineapple", "Food", "Delicious Fruit", 1.99),
                 new Product("Coffee", "Drink", "Dark Roast", .99),
                 new Product ("Doritos", "Snack", "Nacho Cheese", 2.99),
@@ -19,11 +19,11 @@ namespace YCRGroupProject
                 new Product ("Gum", "Snacks", "Spearmint", 1.99),
                 new Product ("Socks", "Clothing", "For Feet", 3.99),
                 new Product ("Sunglasses", "Accessories", "For Style", 4.99),
-                new Product ("Mystery Bag", "Miscellaneous Goods" , "Buy At Your Own Risk", 19.99),
-                new Product ("Beanie", "Clothing", "Keep your head warm", 5.99),
-                new Product ("Taco", "Food", "Who doesn’t love tacos?", 2.99),
-                new Product ("Suspenders", "Clothing", "Unleash your inner Terry Crews", 8.99),
-                new Product ("Speakers", "Electronics", "For surround sound", 24.99)
+                new Product ("Mystery Bag", "Random Goods" , "Buy At Your Own Risk", 19.99),
+                new Product ("Beanie", "Clothing", "Keep Your Head Warm", 5.99),
+                new Product ("Taco", "Food", "Who Doesn’t Love Tacos?", 2.99),
+                new Product ("Suspenders", "Clothing", "Unleash Your Inner Terry Crews", 8.99),
+                new Product ("Speakers", "Electronics", "For Surround Sound", 24.99)
             };
         //Cart for customer
         List<double> Quantity = new List<double>();
@@ -43,7 +43,6 @@ namespace YCRGroupProject
 
                 }
                 sw.Close();
-
             }
             else
             {
@@ -58,14 +57,12 @@ namespace YCRGroupProject
                     }
                     string[] productProps = line.Split(",");
                     Product p = new Product(productProps[0], productProps[1], productProps[2], double.Parse(productProps[3]));
-                    textDocList.Add(p);
-                    
+                    textDocList.Add(p);                  
                                    
                 }
                 sr.Close();
                 StoreList = textDocList;
-            }
-           
+            }         
             
         }
 
@@ -92,19 +89,7 @@ namespace YCRGroupProject
                 sw.WriteLine($"{prod.Name},{prod.Category},{prod.Description},{prod.Price}");
                 sw.Close();
             
-
-
-
-
-
         }
-
-
-
-
-
-
-
 
         //methods
         public void ProductList()
@@ -125,7 +110,7 @@ namespace YCRGroupProject
 
             foreach (Product p in StoreList)
             {
-                if (choice == p.Name)
+                if (choice.ToLower().Trim() == p.Name.ToLower().Trim())
                 {
                     Purchased = p;
                     break;
@@ -133,7 +118,6 @@ namespace YCRGroupProject
             }
             return Purchased;
         }
-
         public void seeMenu()
         {
             Console.WriteLine($"Select 1 to see the menu, or 2 to complete your purchase.");
@@ -254,7 +238,7 @@ namespace YCRGroupProject
             {
                 try
                 {
-                    Console.WriteLine("Enter 1 to see the menu, 2 to checkout, or 3 to add a product.");
+                    Console.WriteLine("Enter 1 to see the menu, 2 to checkout.");
                     result = double.Parse(Console.ReadLine());
                     if (result == 1)
                     {
@@ -265,12 +249,7 @@ namespace YCRGroupProject
                     {
                         iAmLosingMyGodDamnMind = false;
                         break;
-                    }
-                   else if(result == 3)
-                        {
-                        AddProduct();
-
-                    }
+                    }                  
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -445,6 +424,55 @@ namespace YCRGroupProject
             {
                 Console.WriteLine(string.Format($"{quant[i],-15}{recieptCart[i].Name,-15}${recieptCart[i].Price.ToString("0.00"),-15}"));
             }
+        }
+
+        public bool askAddOrEndSession()
+        {
+            bool iAmLosingMyGodDamnMind = true;
+            double result = 0;
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Enter 1 to continue shopping, 2 to end session, or 3 to add a product.");
+                    result = double.Parse(Console.ReadLine());
+                    if (result == 1)
+                    {
+                        
+                        break;
+                    }
+                    else if (result == 2)
+                    {
+                        iAmLosingMyGodDamnMind = false;
+                        break;
+                    }
+                    else if (result == 3)
+                    {
+                        AddProduct();
+                        
+
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("That was not a valid number. ");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                }
+                catch (FormatException e)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("That wasn't a number. Try again");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            return iAmLosingMyGodDamnMind;
+
         }
     }
 }

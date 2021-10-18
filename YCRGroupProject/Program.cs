@@ -11,17 +11,12 @@ namespace YCRGroupProject
             InventoryList store = new InventoryList();
             store.FileCheck();
 
-
-
-
             bool runProgram = true;
             while (runProgram)
             {
 
                 Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
-                
-                
-                
+                                             
                 List<Product> cart = new List<Product>();
                 List<double> quantity = new List<double>();
 
@@ -64,13 +59,16 @@ namespace YCRGroupProject
 
                 Console.WriteLine("--------------------------------------------------\n\n");
 
-                runProgram = Validator.Validator.GetContinue("Would you like to continue shopping? y/n");
+                runProgram = store.askAddOrEndSession();
+                
 
 
             }
             
 
         }
+
+        
     
     }
 }
