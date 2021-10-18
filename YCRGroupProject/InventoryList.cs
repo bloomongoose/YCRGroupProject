@@ -266,9 +266,10 @@ namespace YCRGroupProject
                         iAmLosingMyGodDamnMind = false;
                         break;
                     }
-                    else if(result == 3)
-                    {
+                   else if(result == 3)
+                        {
                         AddProduct();
+
                     }
                     else
                     {
