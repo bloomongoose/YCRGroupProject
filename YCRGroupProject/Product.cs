@@ -5,7 +5,6 @@ using System.Text;
 namespace YCRGroupProject
 {
 
-
     class Product
     { 
         //properties
@@ -34,10 +33,6 @@ namespace YCRGroupProject
         public override string ToString()
         {
             return $"Item : {Name} | Category: {Category} | Description: {Description} | Price: ${Price}";
-
         }
-
-
-
     }
 }

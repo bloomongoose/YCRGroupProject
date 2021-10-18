@@ -13,9 +13,9 @@ namespace YCRGroupProject
             {
 
                 Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
-                //GROUP PROJECT BABY LET'S GOOOOOOOOO
+                
                 InventoryList store = new InventoryList();
-                //testers
+                
                 List<Product> cart = new List<Product>();
                 List<double> quantity = new List<double>();
 
@@ -38,7 +38,6 @@ namespace YCRGroupProject
                 string paymentType = store.askPayment();
                 if (paymentType == "cash")
                 {
-
                     change = store.payByCash(total);
                 }
                 else if (paymentType == "credit")
