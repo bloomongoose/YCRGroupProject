@@ -34,10 +34,13 @@ namespace YCRGroupProject
         //methods
         public void ProductList()
         {
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
             for (int i = 0; i < InventoryProducts.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {InventoryProducts[i].ToString()}");
             }
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
 
@@ -117,7 +120,9 @@ namespace YCRGroupProject
                     Purchased = NameSelector(choice);
                     if (Purchased.Name == "")
                     {
+                        Console.ForegroundColor = ConsoleColor.Red; 
                         Console.WriteLine("That was not a valid input.");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
                     {
@@ -154,13 +159,17 @@ namespace YCRGroupProject
                 //0 or lower
                 if (result <= 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("You cannot purchase 0 or a negative amount.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 //1 or higher
                 else
                 {
                     Quantity.Add(result);
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"You bought {result} {t.Name}(s) at ${t.Price}");
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 }
             }
@@ -178,8 +187,9 @@ namespace YCRGroupProject
 
             }
             double grandTotal = (subTotal * salesTax) + subTotal;
-
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Subtotal: ${Math.Round(subTotal, 2)} | Sales Tax: {salesTax}% | Grand total: ${Math.Round(grandTotal, 2)}");
+            Console.ForegroundColor = ConsoleColor.White;
             return grandTotal;
         }
 
@@ -208,13 +218,17 @@ namespace YCRGroupProject
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("That was not a valid number. ");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
 
                 }
                 catch (FormatException e)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("That wasn't a number. Try again");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 catch (Exception e)
                 {
@@ -255,7 +269,9 @@ namespace YCRGroupProject
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("That's not an acceptable form of payment. Try again.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
             return payment;
@@ -267,9 +283,22 @@ namespace YCRGroupProject
 
             double change = 0;
             //tesTotal is a placeholder. Enter user's actual total here
-            Console.WriteLine("How much cash would you like to pay with?");
-            double cash = Validator.Validator.GetNumber();
-            change = cash - total;
+            while (true)
+            {
+                Console.WriteLine("How much cash would you like to pay with?");
+                double cash = Validator.Validator.GetNumber();
+                change = cash - total;
+                if(cash >= total)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("That is not enough money");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
             //Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
             return change;
         }
@@ -306,7 +335,9 @@ namespace YCRGroupProject
 
         public void DisplayReceipt(List<Product> recieptCart, List<double> quant)
         {
+            Console.ForegroundColor = ConsoleColor.Green; 
             Console.WriteLine("Thank you for shopping with us! See you soon!");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             Console.WriteLine(string.Format($"{"Quantity",-15}{"Item",-15}{"Price",-15}"));
             Console.WriteLine();

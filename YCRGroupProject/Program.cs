@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace YCRGroupProject
 {
     class Program
     {
         static void Main(string[] args)
         {
+            
             while (true)
             {
                 Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
@@ -56,6 +58,11 @@ namespace YCRGroupProject
                 
                 Console.WriteLine("--------------------------------------------------\n\n");
             }
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Font font = new Font("Times New Roman", 12.0f);
+
         }
     }
 }
