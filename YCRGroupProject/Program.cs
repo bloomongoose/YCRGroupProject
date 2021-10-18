@@ -10,9 +10,9 @@ namespace YCRGroupProject
         {
             InventoryList store = new InventoryList();
             store.FileCheck();
-          
-            
-           
+
+
+
 
             bool runProgram = true;
             while (runProgram)
@@ -59,7 +59,7 @@ namespace YCRGroupProject
                 store.cartTotal(cart);
                 if (paymentType == "cash")
                 {
-                    Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
+                    Console.WriteLine($"Your change is ${change.ToString("0.00")}");
                 }
 
                 Console.WriteLine("--------------------------------------------------\n\n");
@@ -68,13 +68,10 @@ namespace YCRGroupProject
 
 
             }
+            
 
         }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Font font = new Font("Times New Roman", 12.0f);
-
-        }
+    
     }
 }
 
