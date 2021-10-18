@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace YCRGroupProject
 {
     class InventoryList
     {
-        //Store Inventory
-        List<Product> InventoryProducts = new List<Product>
+        //Store Inventory -- rename store items
+        List<Product> StoreList = new List<Product>
             {
                 new Product("Turtleneck", "Clothing", "It's time to start caring about your neck", 18.99),
                 new Product("Pineapple", "Food", "Delicious Fruit", 1.99),
@@ -23,46 +24,32 @@ namespace YCRGroupProject
                 new Product ("Suspenders", "Clothing", "Unleash your inner Terry Crews", 8.99),
                 new Product ("Speakers", "Electronics", "For surround sound", 24.99)
             };
-
         //Cart for customer
-        List<Product> Cart = new List<Product>();
         List<double> Quantity = new List<double>();
-
-
-
 
         //methods
         public void ProductList()
         {
-            for (int i = 0; i < InventoryProducts.Count; i++)
+            for (int i = 0; i < StoreList.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {InventoryProducts[i].ToString()}");
+                Console.WriteLine($"{i + 1}. {StoreList[i].ToString()}");
             }
-
         }
-
-
 
         public Product NameSelector(string choice)
         {
             Product Purchased = new Product();
-            //while (true)
-            //{
-            foreach (Product p in InventoryProducts)
+
+            foreach (Product p in StoreList)
             {
                 if (choice == p.Name)
                 {
                     Purchased = p;
                     break;
                 }
-
             }
-            //}
-
             return Purchased;
         }
-
-
 
         public void seeMenu()
         {
@@ -75,31 +62,23 @@ namespace YCRGroupProject
             }
             else if (choice2 == 2)
             {
-
                 Console.WriteLine("THANKS!!!");
             }
-
         }
-
 
         public Product numSelector(int result)
         {
             Product Purchased = new Product();
-            for (int i = 0; i < InventoryProducts.Count; i++)
+            for (int i = 0; i < StoreList.Count; i++)
             {
                 if (result == i + 1)
                 {
-                    Purchased = InventoryProducts[i];
+                    Purchased = StoreList[i];
                     break;
-
                 }
-
             }
             return Purchased;
-
         }
-
-
 
         public Product SelectorMethod()
         {
@@ -129,18 +108,13 @@ namespace YCRGroupProject
                     Purchased = numSelector(result);
                     break;
                 }
-
                 else
                 {
                     Console.WriteLine("We do not have that product");
-
                 }
             }
-
             return Purchased;
         }
-
-
 
         public double GetAmount(Product t)
         {
@@ -167,7 +141,6 @@ namespace YCRGroupProject
             return result;
         }
 
-
         public double cartTotal(List<Product> RadeenIsTheMan)
         {
             double subTotal = 0;
@@ -175,15 +148,12 @@ namespace YCRGroupProject
             for (int i = 0; i < Quantity.Count; i++)
             {
                 subTotal += RadeenIsTheMan[i].Price * Quantity[i];
-
             }
             double grandTotal = (subTotal * salesTax) + subTotal;
 
             Console.WriteLine($"Subtotal: ${Math.Round(subTotal, 2)} | Sales Tax: {salesTax}% | Grand total: ${Math.Round(grandTotal, 2)}");
             return grandTotal;
         }
-
-
 
         public bool getContinue()
         {
@@ -210,7 +180,6 @@ namespace YCRGroupProject
                     {
                         Console.WriteLine("That was not a valid number. ");
                     }
-
                 }
                 catch (FormatException e)
                 {
@@ -222,10 +191,7 @@ namespace YCRGroupProject
                 }
             }
             return iAmLosingMyGodDamnMind;
-
         }
-
-
 
         public string askPayment()
         {
@@ -237,20 +203,16 @@ namespace YCRGroupProject
                 if (payment == "cash")
                 {
                     //go to cash method
-
-
                     break;
                 }
                 else if (payment == "credit")
                 {
                     //go to credit method
-
                     break;
                 }
                 else if (payment == "check")
                 {
                     //go to check method               
-
                     break;
                 }
                 else
@@ -261,40 +223,89 @@ namespace YCRGroupProject
             return payment;
         }
 
-
         public double payByCash(double total)
         {
-
             double change = 0;
-            //tesTotal is a placeholder. Enter user's actual total here
+
             Console.WriteLine("How much cash would you like to pay with?");
             double cash = Validator.Validator.GetNumber();
             change = cash - total;
-            //Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
             return change;
         }
 
         public void payByCredit()
         {
-            double cvv = 0;
-            Console.WriteLine("Enter your 16 digit credit card number.");
-            double ccn = Validator.Validator.GetNumberRange(1000000000000000, 9999999999999999);
-            Console.WriteLine("Enter your expiration date in MMYYYY format.");
-            double exp = Validator.Validator.GetNumberRange(100000, 999999);
+            string cvv = "";
+            string ccn = "";
+            string exp = "";
             while (true)
             {
-                Console.WriteLine("Enter your 3 digit CVV number (located on the back of your card).");
-                cvv = Validator.Validator.GetNumberRange(001, 999);
-                if (cvv.ToString().Length != 3)
+                Console.WriteLine("Enter your 16 digit credit card number.");
+                ccn = Console.ReadLine();
+                if (Regex.IsMatch(ccn, @"(^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\d{3})\d{11}$)
+"))
                 {
-                    Console.WriteLine("That was not a valid input. Try again.");
+                    Console.WriteLine("Great!");
+                    break;
                 }
                 else
                 {
-                    break;
+                    Console.WriteLine("That was not a valid input. Try again.");
                 }
             }
-            Console.WriteLine( $"CC#: {ccn} | Exp Date: {exp} | CVV: {cvv} ");
+
+            while (true)
+            {
+                Console.WriteLine("Enter your expiration date in MM/YYYY format.");
+                exp = Console.ReadLine();
+                if (Regex.IsMatch(exp, @"^(0[1-9]|1[0-2])\/?(202[1-9])$"))
+                {
+                    DateTime userDateTime;
+
+                    if (DateTime.TryParse(exp, out userDateTime))
+                    {
+                        if (userDateTime.Year < DateTime.Now.Year)
+                        {
+                            Console.WriteLine("Cannot be in the past.");
+                            continue;
+                        }
+                        else if (userDateTime.Month < DateTime.Now.Month)
+                        {
+                            Console.WriteLine("Cannot be in the past.");
+                            continue;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Accepted");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please follow the correct format. MM/YYYY");
+                        continue;
+                    };
+                }
+                else
+                {
+                    Console.WriteLine("That was not a valid input. Try again.");
+                } 
+            }
+            while (true)
+            {
+                Console.WriteLine("Enter your 3 digit CVV number (located on the back of your card).");
+                cvv = Console.ReadLine();
+                if (Regex.IsMatch(cvv, "^[0-9]{3}$"))
+                {
+                    Console.WriteLine("Great!");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("That was not a valid input. Try again.");
+                }
+            }
+            Console.WriteLine($"CC#: xxxx-xxxx-xxxx-{ccn.Substring(12)} | Exp Date: {exp} | CVV: {cvv} ");
         }
         public void paybyCheck()
         {
@@ -303,7 +314,6 @@ namespace YCRGroupProject
 
             Console.WriteLine($"Your check number is {check}.");
         }
-
         public void DisplayReceipt(List<Product> recieptCart, List<double> quant)
         {
             Console.WriteLine("Thank you for shopping with us! See you soon!");
