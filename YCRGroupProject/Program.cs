@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace YCRGroupProject
 {
     class Program
@@ -62,6 +63,11 @@ namespace YCRGroupProject
 
 
             }
+
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Font font = new Font("Times New Roman", 12.0f);
 
         }
     }
