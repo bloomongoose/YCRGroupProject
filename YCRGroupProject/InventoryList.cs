@@ -52,7 +52,7 @@ namespace YCRGroupProject
                 string[] lines = output.Split('\n');
                 List<Product> textDocList = new List<Product>();
                 foreach(string line in lines)
-                 {  if(line.Length < 1 )
+                 {  if(line.Length < 2 )
                     {
                         break;
                     }
@@ -65,10 +65,40 @@ namespace YCRGroupProject
                 sr.Close();
                 StoreList = textDocList;
             }
+           
+            
+        }
 
+        public void AddProduct()
+        {
+            string filepath = @"..\..\..\YCR_Group_Project";
+            FileCheck();
+           
+                Console.WriteLine("What is the name of the product?");
+                string prodName = Console.ReadLine();
+
+                Console.WriteLine("What category is the product in?");
+                string prodCategory = Console.ReadLine();
+
+                Console.WriteLine("Please write a description for the product: ");
+                string prodDescription = Console.ReadLine();
+
+                Console.WriteLine("What is the product's price?");
+                double prodPrice = Validator.Validator.GetNumber();
+
+                Product prod = new Product(prodName, prodCategory, prodDescription, prodPrice);
+                StoreList.Add(prod);
+                StreamWriter sw = new StreamWriter(filepath, append: true);
+                sw.WriteLine($"{prod.Name},{prod.Category},{prod.Description},{prod.Price}");
+                sw.Close();
             
 
+
+
+
+
         }
+
 
 
 
@@ -79,12 +109,14 @@ namespace YCRGroupProject
         //methods
         public void ProductList()
         {
+
             Console.ForegroundColor = ConsoleColor.Cyan;
             for (int i = 0; i < StoreList.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {StoreList[i].ToString()}");
             }
             Console.ForegroundColor = ConsoleColor.White;
+
         }
 
         public Product NameSelector(string choice)
@@ -156,7 +188,7 @@ namespace YCRGroupProject
                         break;
                     }
                 }
-                else if (result > 0 && result < 14)
+                else if (result > 0 && result < StoreList.Count)
                 {
                     Purchased = numSelector(result);
                     break;
@@ -202,13 +234,13 @@ namespace YCRGroupProject
         {
             double subTotal = 0;
             double salesTax = 0.06;
-            for (int i = 0; i < Quantity.Count; i++)
+            for (int i = 0; i < RadeenIsTheMan.Count; i++)
             {
                 subTotal += RadeenIsTheMan[i].Price * Quantity[i];
             }
             double grandTotal = (subTotal * salesTax) + subTotal;
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Subtotal: ${Math.Round(subTotal, 2)} | Sales Tax: {salesTax}% | Grand total: ${Math.Round(grandTotal, 2)}");
+            Console.WriteLine($"Subtotal: ${subTotal.ToString("0.00")} | Sales Tax: {salesTax}% | Grand total: ${Math.Round(grandTotal, 2)}");
             Console.ForegroundColor = ConsoleColor.White;
             return grandTotal;
         }
@@ -222,7 +254,7 @@ namespace YCRGroupProject
             {
                 try
                 {
-                    Console.WriteLine("Enter 1 to see the menu. Enter 2 to checkout.");
+                    Console.WriteLine("Enter 1 to see the menu, 2 to checkout, or 3 to add a product.");
                     result = double.Parse(Console.ReadLine());
                     if (result == 1)
                     {
@@ -233,6 +265,11 @@ namespace YCRGroupProject
                     {
                         iAmLosingMyGodDamnMind = false;
                         break;
+                    }
+                   else if(result == 3)
+                        {
+                        AddProduct();
+
                     }
                     else
                     {
@@ -307,6 +344,7 @@ namespace YCRGroupProject
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
+            //Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
             return change;
         }
 
@@ -317,7 +355,6 @@ namespace YCRGroupProject
             string exp = "";
             while (true)
             {
-                //Only takes actual credit card numbers, cannot be fabricated.
                 Console.WriteLine("Enter your 16 digit credit card number.");
                 ccn = Console.ReadLine();
                 if (Regex.IsMatch(ccn, @"(^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\d{3})\d{11}$)
@@ -385,6 +422,8 @@ namespace YCRGroupProject
             }
             Console.WriteLine($"CC#: xxxx-xxxx-xxxx-{ccn.Substring(12)} | Exp Date: {exp} | CVV: {cvv} ");
         }
+
+
         public void paybyCheck()
         {
             Console.WriteLine("Enter your check number.");
@@ -392,6 +431,8 @@ namespace YCRGroupProject
 
             Console.WriteLine($"Your check number is {check}.");
         }
+
+
         public void DisplayReceipt(List<Product> recieptCart, List<double> quant)
         {
             Console.ForegroundColor = ConsoleColor.Green; 

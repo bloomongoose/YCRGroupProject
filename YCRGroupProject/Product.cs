@@ -32,7 +32,7 @@ namespace YCRGroupProject
         //methods
         public override string ToString()
         {
-            return $"Item : {Name} | Category: {Category} | Description: {Description} | Price: ${Price}";
+            return $"Item : {Name} | Category: {Category} | Description: {Description} | Price: ${Price.ToString("0.00")}";
         }
     }
 }
