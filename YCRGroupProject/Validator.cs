@@ -20,7 +20,9 @@ namespace Validator
                 }
                 catch(Exception e)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("That was not a valid input. Please enter a number.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
 

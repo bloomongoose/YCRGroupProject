@@ -6,7 +6,7 @@ namespace YCRGroupProject
 {
 
     class Product
-    { 
+    {
         //properties
         public string Name;
         public string Category;
@@ -29,7 +29,7 @@ namespace YCRGroupProject
             Price = price;
         }
 
-        //methods
+        // override method
         public override string ToString()
         {
             return $"Item : {Name} | Category: {Category} | Description: {Description} | Price: ${Price.ToString("0.00")}";

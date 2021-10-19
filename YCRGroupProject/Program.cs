@@ -8,20 +8,28 @@ namespace YCRGroupProject
     {
         static void Main(string[] args)
         {
+            //creates store list
             InventoryList store = new InventoryList();
+
+            //checks file 
             store.FileCheck();
 
+            //begins program
             bool runProgram = true;
             while (runProgram)
             {
 
                 Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
-                                             
+
+                //instantiates cart and quantity lists
                 List<Product> cart = new List<Product>();
                 List<double> quantity = new List<double>();
 
+                //displays store items
                 store.ProductList();
                 Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
+
+                //add item loop
                 while (true)
                 {
                     Product purchased = store.SelectorMethod();
@@ -34,6 +42,7 @@ namespace YCRGroupProject
                     }
                 }
 
+                //begin checkout
                 double total = store.cartTotal(cart);
                 double change = 0;
                 string paymentType = store.askPayment();
@@ -49,6 +58,8 @@ namespace YCRGroupProject
                 {
                     store.paybyCheck();
                 }
+
+                //shows receipt 
                 store.DisplayReceipt(cart, quantity);
                 Console.WriteLine("\n");
                 store.cartTotal(cart);
@@ -59,17 +70,18 @@ namespace YCRGroupProject
 
                 Console.WriteLine("--------------------------------------------------\n\n");
 
+                //asks user how they want to continue
                 runProgram = store.askAddOrEndSession();
-                
+
 
 
             }
-            
+
 
         }
 
-        
-    
+
+
     }
 }
 

@@ -2,6 +2,7 @@
 {
     internal class Font
     {
+        //customizes font for program
         private string v;
         private object size;
 

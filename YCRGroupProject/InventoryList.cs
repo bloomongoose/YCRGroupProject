@@ -8,7 +8,7 @@ namespace YCRGroupProject
 {
     class InventoryList
     {
-        //Store Inventory -- rename store items
+        //Store Inventory List 
         List<Product> StoreList = new List<Product>
             {
                 new Product("Turtleneck", "Clothing", "It's Time To Start Caring About Your Neck", 18.99),
@@ -25,22 +25,21 @@ namespace YCRGroupProject
                 new Product ("Suspenders", "Clothing", "Unleash Your Inner Terry Crews", 8.99),
                 new Product ("Speakers", "Electronics", "For Surround Sound", 24.99)
             };
-        //Cart for customer
+        //Quantitiy list for customer
         List<double> Quantity = new List<double>();
 
 
         //creating new method run at beginning of code
+        //file method
         public void FileCheck()
         {
             string filepath = @"..\..\..\YCR_Group_Project";
             if (File.Exists(filepath) == false)
             {
-                Console.WriteLine("File not found, recreating now.");
                 StreamWriter sw = new StreamWriter(filepath);
-                foreach(Product pro in StoreList)
+                foreach (Product pro in StoreList)
                 {
                     sw.WriteLine($"{pro.Name},{pro.Category},{pro.Description},{ pro.Price}");
-
                 }
                 sw.Close();
             }
@@ -50,48 +49,47 @@ namespace YCRGroupProject
                 string output = sr.ReadToEnd();
                 string[] lines = output.Split('\n');
                 List<Product> textDocList = new List<Product>();
-                foreach(string line in lines)
-                 {  if(line.Length < 2 )
+                foreach (string line in lines)
+                {
+                    if (line.Length < 2)
                     {
                         break;
                     }
                     string[] productProps = line.Split(",");
                     Product p = new Product(productProps[0], productProps[1], productProps[2], double.Parse(productProps[3]));
-                    textDocList.Add(p);                  
-                                   
+                    textDocList.Add(p);
                 }
                 sr.Close();
                 StoreList = textDocList;
-            }         
-            
+            }
         }
-
+        //Add item method, adds to file as well
         public void AddProduct()
         {
             string filepath = @"..\..\..\YCR_Group_Project";
             FileCheck();
-           
-                Console.WriteLine("What is the name of the product?");
-                string prodName = Console.ReadLine();
 
-                Console.WriteLine("What category is the product in?");
-                string prodCategory = Console.ReadLine();
+            Console.WriteLine("What is the name of the product?");
+            string prodName = Console.ReadLine();
 
-                Console.WriteLine("Please write a description for the product: ");
-                string prodDescription = Console.ReadLine();
+            Console.WriteLine("What category is the product in?");
+            string prodCategory = Console.ReadLine();
 
-                Console.WriteLine("What is the product's price?");
-                double prodPrice = Validator.Validator.GetNumber();
+            Console.WriteLine("Please write a description for the product: ");
+            string prodDescription = Console.ReadLine();
 
-                Product prod = new Product(prodName, prodCategory, prodDescription, prodPrice);
-                StoreList.Add(prod);
-                StreamWriter sw = new StreamWriter(filepath, append: true);
-                sw.WriteLine($"{prod.Name},{prod.Category},{prod.Description},{prod.Price}");
-                sw.Close();
-            
+            Console.WriteLine("What is the product's price?");
+            double prodPrice = Validator.Validator.GetNumber();
+
+            Product prod = new Product(prodName, prodCategory, prodDescription, prodPrice);
+            StoreList.Add(prod);
+            StreamWriter sw = new StreamWriter(filepath, append: true);
+            sw.WriteLine($"{prod.Name},{prod.Category},{prod.Description},{prod.Price}");
+            sw.Close();
+
         }
 
-        //methods
+        //displays product list 
         public void ProductList()
         {
 
@@ -104,6 +102,7 @@ namespace YCRGroupProject
 
         }
 
+        //method for selecting item by name
         public Product NameSelector(string choice)
         {
             Product Purchased = new Product();
@@ -118,21 +117,8 @@ namespace YCRGroupProject
             }
             return Purchased;
         }
-        public void seeMenu()
-        {
-            Console.WriteLine($"Select 1 to see the menu, or 2 to complete your purchase.");
-            double choice2 = Validator.Validator.GetNumber();
-            if (choice2 == 1)
-            {
-                ProductList();
-                SelectorMethod();
-            }
-            else if (choice2 == 2)
-            {
-                Console.WriteLine("THANKS!!!");
-            }
-        }
 
+        //select item by number method
         public Product numSelector(int result)
         {
             Product Purchased = new Product();
@@ -147,13 +133,14 @@ namespace YCRGroupProject
             return Purchased;
         }
 
+        //method to check number or word within itemlist
         public Product SelectorMethod()
         {
             Product Purchased = new Product();
             bool isNum = true;
             while (true)
             {
-                Console.WriteLine("Please enter a product number or product name.");
+                Console.WriteLine("\t\t\t\tPlease enter a product number or product name.");
                 string choice = Console.ReadLine();
 
                 isNum = int.TryParse(choice, out int result);
@@ -163,7 +150,7 @@ namespace YCRGroupProject
                     Purchased = NameSelector(choice);
                     if (Purchased.Name == "")
                     {
-                        Console.ForegroundColor = ConsoleColor.Red; 
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("That was not a valid input.");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
@@ -172,19 +159,22 @@ namespace YCRGroupProject
                         break;
                     }
                 }
-                else if (result > 0 && result < StoreList.Count)
+                else if (result > 0 && result <= StoreList.Count)
                 {
                     Purchased = numSelector(result);
                     break;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("We do not have that product");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
             return Purchased;
         }
 
+        //asks for a quantity for selected item
         public double GetAmount(Product t)
         {
             double result = 0;
@@ -214,24 +204,26 @@ namespace YCRGroupProject
             return result;
         }
 
-        public double cartTotal(List<Product> RadeenIsTheMan)
+        //displays cart total, tax, and grand total
+        public double cartTotal(List<Product> cartListTotal)
         {
             double subTotal = 0;
             double salesTax = 0.06;
-            for (int i = 0; i < RadeenIsTheMan.Count; i++)
+            for (int i = 0; i < cartListTotal.Count; i++)
             {
-                subTotal += RadeenIsTheMan[i].Price * Quantity[i];
+                subTotal += cartListTotal[i].Price * Quantity[i];
             }
             double grandTotal = (subTotal * salesTax) + subTotal;
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Subtotal: ${subTotal.ToString("0.00")} | Sales Tax: {salesTax}% | Grand total: ${Math.Round(grandTotal, 2)}");
+            Console.WriteLine($"Subtotal: ${subTotal.ToString("0.00")} | Sales Tax: {salesTax}% | Grand total: ${(grandTotal.ToString("0.00"))}");
             Console.ForegroundColor = ConsoleColor.White;
             return grandTotal;
         }
 
+        //checks to see if user wants to see menu or finish purchase
         public bool getContinue()
         {
-            bool iAmLosingMyGodDamnMind = true;
+            bool keepGoing = true;
             double result = 0;
 
             while (true)
@@ -247,9 +239,9 @@ namespace YCRGroupProject
                     }
                     else if (result == 2)
                     {
-                        iAmLosingMyGodDamnMind = false;
+                        keepGoing = false;
                         break;
-                    }                  
+                    }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -268,9 +260,10 @@ namespace YCRGroupProject
                     Console.WriteLine(e.Message);
                 }
             }
-            return iAmLosingMyGodDamnMind;
+            return keepGoing;
         }
 
+        //asks user how they will be paying
         public string askPayment()
         {
             string payment = "";
@@ -303,16 +296,16 @@ namespace YCRGroupProject
             return payment;
         }
 
+        //Cash payment option
         public double payByCash(double total)
         {
             double change = 0;
-            //tesTotal is a placeholder. Enter user's actual total here
             while (true)
             {
                 Console.WriteLine("How much cash would you like to pay with?");
                 double cash = Validator.Validator.GetNumber();
                 change = cash - total;
-                if(cash >= total)
+                if (cash >= total)
                 {
                     break;
                 }
@@ -323,10 +316,10 @@ namespace YCRGroupProject
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
-            //Console.WriteLine($"Your change is ${Math.Round(change, 2)}.");
             return change;
         }
 
+        //credit payment option
         public void payByCredit()
         {
             string cvv = "";
@@ -334,17 +327,23 @@ namespace YCRGroupProject
             string exp = "";
             while (true)
             {
+
+                //checks for real credit card number
                 Console.WriteLine("Enter your 16 digit credit card number.");
                 ccn = Console.ReadLine();
                 if (Regex.IsMatch(ccn, @"(^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\d{3})\d{11}$)
 "))
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Great!");
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("That was not a valid input. Try again.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
 
@@ -360,30 +359,40 @@ namespace YCRGroupProject
                     {
                         if (userDateTime.Year < DateTime.Now.Year)
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Cannot be in the past.");
+                            Console.ForegroundColor = ConsoleColor.White;
                             continue;
                         }
                         else if (userDateTime.Month < DateTime.Now.Month)
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Cannot be in the past.");
+                            Console.ForegroundColor = ConsoleColor.White;
                             continue;
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Accepted");
+                            Console.ForegroundColor = ConsoleColor.White;
                             break;
                         }
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Please follow the correct format. MM/YYYY");
+                        Console.ForegroundColor = ConsoleColor.White;
                         continue;
                     };
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("That was not a valid input. Try again.");
-                } 
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
             }
             while (true)
             {
@@ -391,18 +400,22 @@ namespace YCRGroupProject
                 cvv = Console.ReadLine();
                 if (Regex.IsMatch(cvv, "^[0-9]{3}$"))
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Great!");
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("That was not a valid input. Try again.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
             Console.WriteLine($"CC#: xxxx-xxxx-xxxx-{ccn.Substring(12)} | Exp Date: {exp} | CVV: {cvv} ");
         }
 
-
+        //check payment option
         public void paybyCheck()
         {
             Console.WriteLine("Enter your check number.");
@@ -411,10 +424,10 @@ namespace YCRGroupProject
             Console.WriteLine($"Your check number is {check}.");
         }
 
-
+        //displays receipt to user
         public void DisplayReceipt(List<Product> recieptCart, List<double> quant)
         {
-            Console.ForegroundColor = ConsoleColor.Green; 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Thank you for shopping with us! See you soon!");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
@@ -426,9 +439,10 @@ namespace YCRGroupProject
             }
         }
 
+        //asks user to continue, end session or add product, after initial purchase
         public bool askAddOrEndSession()
         {
-            bool iAmLosingMyGodDamnMind = true;
+            bool keepGoing = true;
             double result = 0;
 
             while (true)
@@ -439,19 +453,16 @@ namespace YCRGroupProject
                     result = double.Parse(Console.ReadLine());
                     if (result == 1)
                     {
-                        
                         break;
                     }
                     else if (result == 2)
                     {
-                        iAmLosingMyGodDamnMind = false;
+                        keepGoing = false;
                         break;
                     }
                     else if (result == 3)
                     {
                         AddProduct();
-                        
-
                     }
                     else
                     {
@@ -471,8 +482,7 @@ namespace YCRGroupProject
                     Console.WriteLine(e.Message);
                 }
             }
-            return iAmLosingMyGodDamnMind;
-
+            return keepGoing;
         }
     }
 }
