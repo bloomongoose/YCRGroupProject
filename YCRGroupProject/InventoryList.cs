@@ -192,8 +192,16 @@ namespace YCRGroupProject
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 //1 or higher
+
+                else if(result.ToString().Contains("."))
+                    {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Amount cannot be a decimal.");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    }
                 else
-                {
+                {   
                     Quantity.Add(result);
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"You bought {result} {t.Name}(s) at ${t.Price}");
