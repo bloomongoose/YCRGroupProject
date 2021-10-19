@@ -81,6 +81,11 @@ namespace YCRGroupProject
             Console.WriteLine("What is the product's price?");
             double prodPrice = Validator.Validator.GetNumber();
 
+            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("**Item Added**");
+            Console.ForegroundColor = ConsoleColor.White;
+
             Product prod = new Product(prodName, prodCategory, prodDescription, prodPrice);
             StoreList.Add(prod);
             StreamWriter sw = new StreamWriter(filepath, append: true);
