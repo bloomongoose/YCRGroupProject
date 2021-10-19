@@ -14,16 +14,19 @@ namespace YCRGroupProject
             //checks file 
             store.FileCheck();
 
+
+
             //begins program
             bool runProgram = true;
             while (runProgram)
             {
-
-                Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
-
                 //instantiates cart and quantity lists
                 List<Product> cart = new List<Product>();
                 List<double> quantity = new List<double>();
+
+                Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
+
+
 
                 //displays store items
                 store.ProductList();
@@ -70,18 +73,13 @@ namespace YCRGroupProject
 
                 Console.WriteLine("--------------------------------------------------\n\n");
 
+                //clears cart and quantity
+                cart.Clear();
+                store.Quantity.Clear();
                 //asks user how they want to continue
                 runProgram = store.askAddOrEndSession();
-
-
-
             }
-
-
         }
-
-
-
     }
 }
 

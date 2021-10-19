@@ -26,7 +26,7 @@ namespace YCRGroupProject
                 new Product ("Speakers", "Electronics", "For Surround Sound", 24.99)
             };
         //Quantitiy list for customer
-        List<double> Quantity = new List<double>();
+        public List<double> Quantity = new List<double>();
 
 
         //creating new method run at beginning of code
@@ -436,7 +436,7 @@ namespace YCRGroupProject
             for (int i = 0; i < recieptCart.Count; i++)
             {
                 Console.WriteLine(string.Format($"{quant[i],-15}{recieptCart[i].Name,-15}${recieptCart[i].Price.ToString("0.00"),-15}"));
-            }
+            }   
         }
 
         //asks user to continue, end session or add product, after initial purchase
