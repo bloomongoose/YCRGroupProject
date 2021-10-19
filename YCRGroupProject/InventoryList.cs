@@ -103,7 +103,6 @@ namespace YCRGroupProject
                 Console.WriteLine($"{i + 1}. {StoreList[i].ToString()}");
             }
             Console.ForegroundColor = ConsoleColor.White;
-
         }
 
         //method for selecting item by name
@@ -196,6 +195,15 @@ namespace YCRGroupProject
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 //1 or higher
+
+                else if (result.ToString().Contains("."))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Amount cannot be a decimal.");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                }
+
                 else
                 {
                     Quantity.Add(result);

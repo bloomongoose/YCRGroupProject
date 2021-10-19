@@ -14,8 +14,6 @@ namespace YCRGroupProject
             //checks file 
             store.FileCheck();
 
-
-
             //begins program
             bool runProgram = true;
             while (runProgram)
@@ -25,8 +23,6 @@ namespace YCRGroupProject
                 List<double> quantity = new List<double>();
 
                 Console.WriteLine("\t\t\t\tWelcome to the Ultimate Corner Bodega!\n");
-
-
 
                 //displays store items
                 store.ProductList();
